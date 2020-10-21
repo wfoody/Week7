@@ -30,15 +30,29 @@
 
  const todoList = document.getElementById('todoList')
 
+
+function deleteTask(taskId) {
+    
+    fetch(`http://localhost:3000/todos/${taskId}`, {
+        method: 'DELETE'
+    }).then(response => response.json())
+    .then(result => {
+        showTodos()
+    }) 
+}
+
  function showTodos() {
      todoList.innerHTML = ''
 
      fetch('http://localhost:3000/todos')
         .then(response => response.json())
         .then(todos => {
-            let todoItems = todos.map((todoItem) => {
+            let todoItems = todos.map(todoItem => {
                 return `
-                <li>To do: ${todoItem.title}, Priority: ${todoItem.priority}, Date Created: ${todoItem.dateCreated}</li>
+                <li>
+                <label>To do: ${todoItem.title}, Priority: ${todoItem.priority}, Date Created: ${todoItem.dateCreated}</label>
+                <button onclick='deleteTask("${todoItem.taskId}")'>Delete</button>
+                </li>
                
                 `
             })
