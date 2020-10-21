@@ -23,12 +23,15 @@ app.post('/todos', (req, res) => {
     let priority = req.body.priority
     let dateCreated = req.body.dateCreated
     
-
-    let todoItem = {title: title, priority: priority, dateCreated: dateCreated}
-    todos.push(todoItem)
-
-    res.send({success: true})
+    if(title != null && priority != null && dateCreated != null) {
+        let todoItem = {title: title, priority: priority, dateCreated: dateCreated}
+        todos.push(todoItem)
+        res.json({success: true})
+    }else {
+        res.json({success: false, errorMessage: 'Unable to add task'})
+    }
 })
+
 
 app.listen(3000, () => {
     console.log('Server is running...')
