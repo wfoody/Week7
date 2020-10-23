@@ -1,0 +1,31 @@
+<html>
+    <head></head>
+
+    <body>
+
+        <h1>Trips</h1>
+
+        <form action="/trips" method='POST'>
+            <label><b>Destination:</b></label>
+            <input type="text" name="cityName" id="cityName" required/><br><br>
+            <label><b>Departure date:</b></label>
+            <input type="text" name="dateDeparture" id="dateDeparture" required/><br><br>
+            <label><b>Return date:</b></label>            
+            <input type="text" name="dateReturn" id="dateReturn" required/><br><br>
+            <button type="submit">Save</button>
+        </form>
+
+        <ul>
+            <form method="POST" action="/delete">
+                {{#trips}}
+                    <li>
+                        <b>Destination:</b> {{name}} - <b>Departure date:</b> {{dateDeparture}} - <b>Return date:</b> {{dateReturn}} <button>Delete</button>
+                        <input type="hidden" value={{tripId}} name="tripId" />
+                    </li>
+                {{/trips}}
+            </form>
+        </ul>
+
+    </body>
+
+</html>

@@ -4,6 +4,7 @@ const mustacheExpress = require('mustache-express')
 const { v4: uuidv4 } = require('uuid')
 const session = require('express-session')
 
+
 app.use(express.urlencoded())
 
 app.use(session({
@@ -13,9 +14,8 @@ app.use(session({
 }))
 
 
-
 let users = []
-
+let trips = []
 
 
 // setting up mustache as a templating engine
@@ -53,6 +53,7 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
+
 app.post('/login', (req, res) => {
     const username = req.body.username
     const password = req.body.password
@@ -71,25 +72,40 @@ app.post('/login', (req, res) => {
     }
 })
 
+
 app.get('/trips', (req, res) => {
    
-    res.render('add-trip')
+    res.render('trips')
 })
 
 app.post('/trips', (req, res) => {
     let name = req.body.cityName
     let dateDeparture = req.body.dateDeparture
     let dateReturn = req.body.dateReturn
-
-    let trips = [
-        {name: name, dateDeparture: dateDeparture, dateReturn: dateReturn}
-    ]
-
+    
+    if(name != null || dateDeparture != null || dateReturn != null) {
+        let trip = {tripId: uuidv4(), name: name, dateDeparture: dateDeparture, dateReturn: dateReturn}
+        trips.push(trip)        
+        // res.json({success: true})
+        res.render('trips', {trips: trips})
+    }else {
+        res.render('trips', {message: "Please fill in all boxes"})
+    }
     console.log(name)
     console.log(dateDeparture)
     console.log(dateReturn)
+})
 
-    res.render('add-trip', {trips: trips})
+app.post('/delete', (req, res) => {
+    
+    const tripId = req.body.tripId
+    trips = trips.filter((trip) => {
+        return trip.tripId != tripId
+    })
+
+    console.log(tripId)
+
+    res.redirect('/trips')
 })
 
 
