@@ -16,14 +16,18 @@
         </form>
 
         <ul>
-            <form method="POST" action="/delete">
-                {{#trips}}
+            
+            {{#trips}}
+                <form method="POST" action="/delete">
                     <li>
-                        <b>Destination:</b> {{name}} - <b>Departure date:</b> {{dateDeparture}} - <b>Return date:</b> {{dateReturn}} <button>Delete</button>
+                        <b>Destination:</b> {{name}} - <b>Departure date:</b> {{dateDeparture}} - <b>Return date:</b> {{dateReturn}} 
                         <input type="hidden" value={{tripId}} name="tripId" />
+                        <button name="deleteButton" type="submit" >Delete</button>
+
                     </li>
-                {{/trips}}
-            </form>
+                </form>
+            {{/trips}}
+
         </ul>
 
     </body>

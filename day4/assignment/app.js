@@ -75,7 +75,7 @@ app.post('/login', (req, res) => {
 
 app.get('/trips', (req, res) => {
    
-    res.render('trips')
+    res.render('trips', {trips: trips})
 })
 
 app.post('/trips', (req, res) => {
@@ -98,6 +98,7 @@ app.post('/trips', (req, res) => {
 
 app.post('/delete', (req, res) => {
     
+    console.log(trips)
     const tripId = req.body.tripId
     trips = trips.filter((trip) => {
         return trip.tripId != tripId
@@ -105,7 +106,7 @@ app.post('/delete', (req, res) => {
 
     console.log(tripId)
 
-    res.redirect('/trips')
+    res.redirect('/trips') 
 })
 
 
