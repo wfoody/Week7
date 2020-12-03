@@ -2,9 +2,11 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const { v4: uuidv4 } = require('uuid')
 
 
-const todos = []
+
+let todos = []
 
 // app.get('/todos', (req, res) => {
 //     res.send("hello")
@@ -18,18 +20,29 @@ app.get('/todos', (req, res) => {
 
 
 app.post('/todos', (req, res) => {
-    console.log(req.body)
     let title = req.body.title
     let priority = req.body.priority
     let dateCreated = req.body.dateCreated
     
     if(title != null && priority != null && dateCreated != null) {
-        let todoItem = {title: title, priority: priority, dateCreated: dateCreated}
+        let todoItem = {taskId: uuidv4(), title: title, priority: priority, dateCreated: dateCreated}
         todos.push(todoItem)
         res.json({success: true})
     }else {
         res.json({success: false, errorMessage: 'Unable to add task'})
     }
+})
+
+app.delete('/todos/:taskId', (req, res) => {
+
+    let taskId = req.params.taskId
+    
+    todos = todos.filter(todo => {
+        return todo.taskId != taskId
+
+    })
+
+    res.json({success: true})
 })
 
 
